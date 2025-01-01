@@ -13,6 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { redirect } from "next/navigation";
+import SocialSignin from "./SocialSignin";
 
 export default function LoginForm() {
   const session = useSession();
@@ -32,7 +33,7 @@ export default function LoginForm() {
           <CardTitle>Login</CardTitle>
           <CardDescription>Login with your email and password</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 ">
           <form action={credentialsAction}>
             <div className="space-y-2">
               <Label htmlFor="password">Email</Label>
@@ -49,6 +50,10 @@ export default function LoginForm() {
               SignUp
             </button>
           </form>
+
+          <p className="text-gray-500 px-1 mt-5 text-center">or</p>
+
+          <SocialSignin />
         </CardContent>
         <CardFooter>
           <span className="text-gray-500 px-1">

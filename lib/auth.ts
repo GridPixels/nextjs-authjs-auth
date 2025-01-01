@@ -8,6 +8,7 @@ import GitHub from "next-auth/providers/github";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  secret: process.env.SECRET,
   session: {
     strategy: "jwt",
   },
@@ -15,10 +16,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     GitHub({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
 
     Credentials({
@@ -50,7 +53,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             return null;
           }
 
-          const passwordMatch = await bcrypt.compare(password, user?.password);
+          const passwordMatch = await bcrypt.compare(
+            password,
+            user?.password as string
+          );
 
           if (!passwordMatch) {
             return null;
